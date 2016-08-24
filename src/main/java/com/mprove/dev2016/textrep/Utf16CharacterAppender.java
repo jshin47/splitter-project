@@ -5,20 +5,25 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
-public class Utf16CharacterAppender implements AppendsSomeChars {
-    @Override
-    public void append(char c, OutputStream outputStream) throws IOException, CharacterRepresentationException {
+public class Utf16CharacterAppender {
 
-        String s = Character.toString(c);
-        int value = Character.getNumericValue(c);
+    public static final AppendsSomeChars UTF_16_APPENDER;
 
-        byte[] bytes = ByteBuffer.allocate(4).putInt(value).array();
+    static {
+        UTF_16_APPENDER = new AppendsSomeChars() {
+            @Override
+            public void append(char c, OutputStream outputStream) throws IOException, CharacterRepresentationException {
+                String s = Character.toString(c);
+                int value = Character.getNumericValue(c);
 
-        byte[] output = new byte[2];
-        output[0] = bytes[2];
-        output[1] = bytes[3];
+                byte[] bytes = ByteBuffer.allocate(4).putInt(value).array();
 
-        outputStream.write(output);
+                byte[] output = new byte[2];
+                output[0] = bytes[2];
+                output[1] = bytes[3];
 
+                outputStream.write(output);
+            }
+        };
     }
 }

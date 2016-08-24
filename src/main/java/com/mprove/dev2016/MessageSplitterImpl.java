@@ -33,7 +33,7 @@ public class MessageSplitterImpl implements MessageSplitter {
     }
 
     public AppendsSomeChars splitterEncoding(SmsCharacterEncoding encoding) {
-        return (encoding == SmsCharacterEncoding.GSM0338) ? Gsm0338CharCompliantAlphabets.GSM_0338_STANDARD_ALPHABET : new Utf16CharacterAppender();
+        return (encoding == SmsCharacterEncoding.GSM0338) ? Gsm0338CharCompliantAlphabets.GSM_0338_STANDARD_ALPHABET : Utf16CharacterAppender.UTF_16_APPENDER;
     }
 
     public int longestEncodeableFittingSegment(String string, SmsCharacterEncoding encoding, int messageLengthInBytes) {
