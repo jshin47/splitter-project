@@ -7,9 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.stream.IntStream;
 
-/**
- * Created by justin on 8/24/16.
- */
+
 public interface ReadsCharsFromStream {
 
     char readFrom(InputStream stream) throws EOFException, IOException, CharacterRepresentationException;

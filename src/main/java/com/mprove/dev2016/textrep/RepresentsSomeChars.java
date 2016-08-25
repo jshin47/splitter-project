@@ -1,8 +1,6 @@
 package com.mprove.dev2016.textrep;
 
-/**
- * Created by justin on 8/24/16.
- */
+
 public interface RepresentsSomeChars extends RepresentsSomeCodepoints {
 
     boolean canRepresent(char c);

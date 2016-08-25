@@ -8,9 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 
-/**
- * Created by justin on 8/24/16.
- */
+
 public class NaiveEnumeratedAlphabet extends AbsCharCompliantAlphabet  {
 
     private final BiMap<Character, Byte> charToByte;

@@ -6,9 +6,7 @@ import com.google.common.collect.HashBiMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by justin on 8/24/16.
- */
+
 public class CharacterValueEnumerationUtils {
 
     public static BiMap<Character, Byte> mappingInducedFromOrdering(List<Character> characters) {
