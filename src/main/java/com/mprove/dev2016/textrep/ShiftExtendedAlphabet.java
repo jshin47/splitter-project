@@ -12,18 +12,11 @@ public class ShiftExtendedAlphabet extends AbsCharCompliantAlphabet {
     private final NaiveEnumeratedAlphabet baseAlphabet;
     private final byte shiftByte;
     private final AbsCharCompliantAlphabet extensionAlphabet;
-    private final int packingFactor;
 
-    public ShiftExtendedAlphabet(NaiveEnumeratedAlphabet baseAlphabet, byte shiftByte, AbsCharCompliantAlphabet extensionAlphabet, int packingFactor) {
+    public ShiftExtendedAlphabet(NaiveEnumeratedAlphabet baseAlphabet, byte shiftByte, AbsCharCompliantAlphabet extensionAlphabet) {
         this.baseAlphabet = baseAlphabet;
         this.shiftByte = shiftByte;
         this.extensionAlphabet = extensionAlphabet;
-        this.packingFactor = packingFactor;
-    }
-
-    @Override
-    public int packedSize(int byteSize) {
-        return (int) Math.ceil(byteSize * ( (double) packingFactor / 8.0));
     }
 
     @Override
@@ -53,5 +46,13 @@ public class ShiftExtendedAlphabet extends AbsCharCompliantAlphabet {
             return extensionAlphabet.readFrom(stream);
 
         return baseAlphabet.charRepresentation((byte)next);
+    }
+
+    @Override
+    public short maxBitLength() {
+        int baseMax = baseAlphabet.maxBitLength();
+        int exttMax = extensionAlphabet.maxBitLength();
+
+        return (short) Math.max(baseMax, exttMax);
     }
 }

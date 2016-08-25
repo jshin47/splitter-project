@@ -33,7 +33,7 @@ public class Gsm0338CharCompliantAlphabets {
 
         _GSM_0338_EXT = new NaiveEnumeratedAlphabet(CharacterValueEnumerationUtils.mappingFromMap(extMap));
 
-        GSM_0338_STANDARD_ALPHABET = new ShiftExtendedAlphabet(_GSM_0338_BASE, GSM_0338_STANDARD_SHIFT_BYTE, _GSM_0338_EXT, 7);
+        GSM_0338_STANDARD_ALPHABET = new ShiftExtendedAlphabet(_GSM_0338_BASE, GSM_0338_STANDARD_SHIFT_BYTE, _GSM_0338_EXT);
 
     }
 

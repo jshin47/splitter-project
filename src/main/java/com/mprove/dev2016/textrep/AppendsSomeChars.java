@@ -3,6 +3,7 @@ package com.mprove.dev2016.textrep;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.BitSet;
 
 public interface AppendsSomeChars {
 
@@ -21,12 +22,25 @@ public interface AppendsSomeChars {
         return baos.toByteArray();
     }
 
-    default int byteSize(String string) throws IOException, CharacterRepresentationException {
-        return getByteArray(string).length;
+    default byte[] getPackedArray(byte[] data) {
+        return packArrayWithMaxBitlength(data, maxBitLength());
     }
 
-    default int packedSize(int byteSize) {
-        return byteSize;
+    default int getPackedArraySize(byte[] data) {
+        return getPackedArray(data).length;
+    }
+
+    // A FAST AND ACCURATE WAY TO CHECK.
+    default int getPackedArraySizeFast(int inputLength) {
+        return (int) Math.ceil((double) inputLength * ( (double) maxBitLength() / 8.000 ) );
+    }
+
+    default short maxBitLength() {
+        return 8;
+    }
+
+    default int byteSize(String string) throws IOException, CharacterRepresentationException {
+        return getByteArray(string).length;
     }
 
     default int lengthOfStringOfMaxSize(String string, int byteSize) {
@@ -45,7 +59,8 @@ public interface AppendsSomeChars {
                 return count;
             }
 
-            if (packedSize(baos.size()) <= byteSize) {
+            // This is an odd-looking condition but the left part of the condition is strictly necessary for the right part, which takes time, so it saves us all those cases other than the ones we actually need to pack.
+            if (getPackedArraySizeFast(baos.size()) <= byteSize) {
                 count += characters.length;
             } else {
                 return count;
@@ -54,6 +69,31 @@ public interface AppendsSomeChars {
         }
 
         return count;
+    }
+
+    static byte[] packArrayWithMaxBitlength(byte[] data, short maxLength) {
+        if (maxLength == 8)
+            return data;
+
+        System.out.println("packing original length " + data.length + " with bit max " + maxLength);
+
+        BitSet originalBits = BitSet.valueOf(data);
+        BitSet bits = new BitSet(data.length * maxLength);
+
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < maxLength; j++) {
+                int originalPosition = i * 8 + j;
+                boolean originalValue = originalBits.get(originalPosition);
+                int newPosition = i   * maxLength + j;
+                bits.set(newPosition, originalValue);
+            }
+        }
+
+        byte[] packed = bits.toByteArray();
+
+        System.out.println("the packed size is now " + packed.length);
+
+        return packed;
     }
 
 }

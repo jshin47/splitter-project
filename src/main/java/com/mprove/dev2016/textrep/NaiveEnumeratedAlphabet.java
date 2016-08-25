@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.BitSet;
+import java.util.Optional;
 
 
 public class NaiveEnumeratedAlphabet extends AbsCharCompliantAlphabet  {
@@ -57,8 +59,38 @@ public class NaiveEnumeratedAlphabet extends AbsCharCompliantAlphabet  {
 
     }
 
-    public ShiftExtendedAlphabet extendedAlphabet(byte shiftByte, AbsCharCompliantAlphabet extension, int packingFactor) {
-        return new ShiftExtendedAlphabet(this, shiftByte, extension, packingFactor);
+    @Override
+    public short maxBitLength() {
+        Optional<Integer> maxValueO = this.charToByte.values().stream().max((x, y) -> x.intValue() - y.intValue()).map(x -> x.intValue());
+
+        if (!maxValueO.isPresent())
+            return  0;
+
+        int maxValue = maxValueO.get();
+
+        if (maxValue > 127)
+            return 8;
+        else if (maxValue > 63)
+            return 7;
+        else if (maxValue > 31)
+            return 6;
+        else if (maxValue > 15)
+            return 5;
+        else if (maxValue > 7)
+            return 4;
+        else if (maxValue > 3)
+            return 3;
+        else if (maxValue > 1)
+            return 2;
+        else if (maxValue > 0)
+            return  1;
+
+        return  0;
+
+    }
+
+    public ShiftExtendedAlphabet extendedAlphabet(byte shiftByte, AbsCharCompliantAlphabet extension) {
+        return new ShiftExtendedAlphabet(this, shiftByte, extension);
     }
 
     public static NaiveEnumeratedAlphabet fromOrderingOfCharacters(Character... characters) {

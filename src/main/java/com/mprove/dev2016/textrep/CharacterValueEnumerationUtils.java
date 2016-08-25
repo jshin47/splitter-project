@@ -2,10 +2,14 @@ package com.mprove.dev2016.textrep;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import org.w3c.dom.ranges.RangeException;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
-
 
 public class CharacterValueEnumerationUtils {
 
