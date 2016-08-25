@@ -4,9 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-/**
- * Created by justin on 8/24/16.
- */
 public interface AppendsSomeChars {
 
     void append(char c, OutputStream outputStream) throws IOException, CharacterRepresentationException;

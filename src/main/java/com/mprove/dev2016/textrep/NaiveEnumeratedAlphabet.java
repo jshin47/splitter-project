@@ -23,14 +23,14 @@ public class NaiveEnumeratedAlphabet extends AbsCharCompliantAlphabet  {
 
     public byte byteRepresentation(char c) throws CharacterRepresentationException {
         if (!canRepresent(c))
-            throw new CharacterRepresentationException();
+            throw CharacterRepresentationException.from(c);
 
         return this.charToByte.get(c);
     }
 
     public char charRepresentation(byte b) throws CharacterRepresentationException {
         if (!canRepresent(b))
-            throw new CharacterRepresentationException();
+            throw CharacterRepresentationException.from(b);
         return this.byteToChar.get(b);
     }
 
